@@ -1,0 +1,39 @@
+name: Assemble OrderFlow source
+
+on:
+  push:
+    paths:
+      - 'orderflow-source.part*.b64'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Reconstruct and extract the source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          parts=(orderflow-source.part01.b64 orderflow-source.part02.b64 orderflow-source.part03.b64 orderflow-source.part04.b64 orderflow-source.part05.b64 orderflow-source.part06.b64 orderflow-source.part07.b64)
+          for part in "${parts[@]}"; do
+            test -f "$part" || { echo "Missing $part; waiting for the complete archive."; exit 0; }
+          done
+          cat "${parts[@]}" | base64 --decode > orderflow-source.tar.gz
+          tar -tzf orderflow-source.tar.gz >/dev/null
+          tar -xzf orderflow-source.tar.gz
+          rm -f "${parts[@]}" orderflow-source.tar.gz
+      - name: Commit the extracted project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Add complete OrderFlow FastAPI project source"
+            git push
+          fi
