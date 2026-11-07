@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OrderFlow — Storefront</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">O</span> orderflow</a><nav><a href="#catalog">Shop</a><a href="#account">Account</a><a href="#cart">Cart <span id="cart-count" class="count">0</span></a></nav><span id="user-label" class="user-label">Guest</span></header>
+  <main>
+    <section class="hero"><div><span class="eyebrow">DEMO COMMERCE PLATFORM</span><h1>Commerce, without<br><em>the chaos.</em></h1><p>A full-stack demonstration of inventory-aware checkout, reliable orders and payment workflows.</p><a class="primary-btn" href="#catalog">Explore products <span>→</span></a></div><div class="hero-card"><div class="mini-label">ORDERFLOW SYSTEM STATUS</div><div class="status-line"><span class="pulse"></span> All systems operational</div><div class="hero-stats"><div><strong>01</strong><small>Inventory-aware</small></div><div><strong>02</strong><small>Idempotent checkout</small></div><div><strong>03</strong><small>Payment verified</small></div></div><div class="hero-orbit">OF</div></div></section>
+    <section id="account" class="account-panel panel"><div><span class="eyebrow">YOUR ACCOUNT</span><h2>Sign in or create an account</h2><p class="muted">Register to add items to your cart and place a test order.</p></div><form id="auth-form" class="auth-form"><input id="auth-name" placeholder="Your name (register only)"><input id="auth-email" type="email" placeholder="Email" required><input id="auth-password" type="password" placeholder="Password (8+ characters)" required><div class="button-row"><button class="primary-btn" type="submit" id="auth-submit">Sign in</button><button class="secondary-btn" type="button" id="register-mode">Create account</button><button class="text-btn hidden" type="button" id="logout-btn">Sign out</button></div></form></section>
+    <section id="catalog" class="section"><div class="section-heading"><div><span class="eyebrow">THE CATALOGUE</span><h2>Featured products</h2></div><div class="search-wrap"><input id="search" placeholder="Search products…"><button id="search-btn" aria-label="Search">⌕</button></div></div><div id="products" class="product-grid"><div class="loading">Loading catalogue…</div></div></section>
+    <section id="cart" class="section cart-section"><div class="section-heading"><div><span class="eyebrow">YOUR SELECTION</span><h2>Shopping cart</h2></div><button class="secondary-btn" id="refresh-cart">Refresh cart</button></div><div class="cart-layout"><div id="cart-items" class="panel cart-items"><p class="muted">Sign in to view your cart.</p></div><aside class="panel checkout-card"><span class="eyebrow">ORDER SUMMARY</span><div class="summary-row"><span>Subtotal</span><strong id="subtotal">₹0.00</strong></div><div class="summary-row"><span>Shipping</span><strong>Free</strong></div><div class="summary-row total"><span>Total</span><strong id="total">₹0.00</strong></div><button id="checkout-btn" class="primary-btn full" disabled>Continue to checkout</button><p class="tiny muted">Demo environment — no real charge will be made.</p></aside></div></section>
+    <section id="orders" class="section"><div class="section-heading"><div><span class="eyebrow">ORDER HISTORY</span><h2>Your orders</h2></div><button id="refresh-orders" class="secondary-btn">Refresh</button></div><div id="order-list" class="panel"><p class="muted">Sign in to see your orders.</p></div></section>
+    <section id="notice" class="notice hidden" role="status"></section>
+  </main>
+  <footer><span class="brand"><span class="brand-mark">O</span> orderflow</span><span>Portfolio project · FastAPI + MySQL · Mock payments</span><a href="/docs">API documentation ↗</a></footer>
+  <script src="/static/app.js" defer></script>
+</body></html>

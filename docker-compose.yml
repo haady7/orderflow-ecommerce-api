@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: orderflow-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: orderflow
+      MYSQL_USER: orderflow
+      MYSQL_PASSWORD: change-me-local
+      MYSQL_ROOT_PASSWORD: root-change-me-local
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot-change-me-local"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  api:
+    build: .
+    container_name: orderflow-api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      APP_NAME: OrderFlow API
+      ENVIRONMENT: production
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env before starting the stack}
+      DATABASE_URL: mysql+pymysql://orderflow:change-me-local@db:3306/orderflow
+      PAYMENT_PROVIDER: mock
+      CORS_ORIGINS: http://localhost:8000
+    ports:
+      - "8000:8000"
+volumes:
+  mysql_data:
