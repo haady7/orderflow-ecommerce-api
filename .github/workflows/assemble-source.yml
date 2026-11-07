@@ -26,6 +26,9 @@ jobs:
           tar -tzf orderflow-source.tar.gz >/dev/null
           tar -xzf orderflow-source.tar.gz
           rm -f orderflow-source.part*.b64 orderflow-source.tar.gz
+          # The GitHub app can write repository contents but lacks the workflows permission.
+          # Keep the project CI definition in the source archive for manual installation, but do not push it via this app token.
+          rm -f .github/workflows/tests.yml
       - name: Commit the extracted project
         shell: bash
         run: |
