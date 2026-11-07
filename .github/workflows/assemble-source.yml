@@ -18,14 +18,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          parts=(orderflow-source.part01.b64 orderflow-source.part02.b64 orderflow-source.part03.b64 orderflow-source.part04.b64 orderflow-source.part05.b64 orderflow-source.part06.b64 orderflow-source.part07.b64)
+          parts=(orderflow-source.part01.b64 orderflow-source.part02.b64 orderflow-source.part03.b64 orderflow-source.part04.b64 orderflow-source.part05.b64 orderflow-source.part06a1a.b64 orderflow-source.part06a1b.b64 orderflow-source.part06a1c.b64 orderflow-source.part06a1d0.b64 orderflow-source.part06a1d1.b64 orderflow-source.part06a1e.b64 orderflow-source.part06a2.b64 orderflow-source.part06b.b64 orderflow-source.part07.b64)
           for part in "${parts[@]}"; do
-            test -f "$part" || { echo "Missing $part; waiting for the complete archive."; exit 0; }
+            test -f "$part" || { echo "Missing $part; refusing to assemble an incomplete archive."; exit 1; }
           done
           cat "${parts[@]}" | base64 --decode > orderflow-source.tar.gz
           tar -tzf orderflow-source.tar.gz >/dev/null
           tar -xzf orderflow-source.tar.gz
-          rm -f "${parts[@]}" orderflow-source.tar.gz
+          rm -f orderflow-source.part*.b64 orderflow-source.tar.gz
       - name: Commit the extracted project
         shell: bash
         run: |
